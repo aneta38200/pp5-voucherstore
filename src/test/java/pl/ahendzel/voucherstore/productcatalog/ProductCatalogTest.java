@@ -71,6 +71,6 @@ public class ProductCatalogTest {
     }
 
     private static ProductCatalogFacade thereIsProductCatalog() {
-        return new ProductCatalogConfiguration().productCatalogFacade();
+        return new ProductCatalogFacade();
     }
 }
