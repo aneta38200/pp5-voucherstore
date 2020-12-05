@@ -9,6 +9,7 @@ public class ProductCatalogFacade {
     ProductStorage productStorage;
 
     public ProductCatalogFacade(ProductStorage productStorage) {
+
         this.productStorage = productStorage;
     }
 
