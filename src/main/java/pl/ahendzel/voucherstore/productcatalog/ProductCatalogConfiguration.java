@@ -1,22 +1,26 @@
 package pl.ahendzel.voucherstore.productcatalog;
 
+import org.springframework.boot.autoconfigure.jms.artemis.ArtemisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 
 @Configuration
 public class ProductCatalogConfiguration {
 
-
     public ProductCatalogFacade productCatalogFacade() {
-        return new ProductCatalogFacade();
+        return new ProductCatalogFacade(new HashMapProductStorage());
 
     }
 
+
     @Bean
     public ProductCatalogFacade fixturesAwareProductCatalogFacade() {
-        ProductCatalogFacade productCatalogFacade = new ProductCatalogFacade();
+        ProductCatalogFacade productCatalogFacade = new ProductCatalogFacade(new HashMapProductStorage());
 
         String p1 = productCatalogFacade.createProduct();
         productCatalogFacade.applyPrice(p1, BigDecimal.valueOf(20.20));
@@ -32,4 +36,14 @@ public class ProductCatalogConfiguration {
 
         return productCatalogFacade;
     }
+
+ //   @Bean
+ //   DataSource myDataSource() {
+ //       return new EmbeddedDatabaseBuilder()
+ //               .setType(EmbeddedDatabaseType.H2)
+ //               .addScript("class:jdbc/schema.sql")
+ //              .addScript("class:jdbc/initial-data.sql")
+ //               .build();
+ //
+ //   }
 }
