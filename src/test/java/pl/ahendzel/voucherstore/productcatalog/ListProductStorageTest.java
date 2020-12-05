@@ -11,7 +11,7 @@ public class ListProductStorageTest {
     @Test
     public void itAllowsStoreProduct() {
         Product p1 = thereIsProduct();
-        ProductStorage storage = new ListProductStorage();
+        ProductStorage storage = new HashMapProductStorage();
 
         storage.save(p1);
 
