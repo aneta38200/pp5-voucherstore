@@ -1,19 +1,26 @@
 package pl.ahendzel.voucherstore.productcatalog;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Entity
 public class Product {
-    private final UUID productId;
+
+    @Id
+    private String productId;
     private String description;
     private String picture;
     private BigDecimal price;
-    private String foo;
+
+    Product() {}
 
 
     public Product(UUID productId) {
-        this.productId = productId;
-        this.foo = "boo";
+        this.productId = productId.toString();
+
     }
 
     public String getId() {
@@ -44,7 +51,5 @@ public class Product {
         this.price = price;
     }
 
-    public String getFoo() {
-        return foo;
-    }
+
 }
