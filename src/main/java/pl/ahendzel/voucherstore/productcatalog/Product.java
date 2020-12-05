@@ -8,10 +8,12 @@ public class Product {
     private String description;
     private String picture;
     private BigDecimal price;
+    private String foo;
 
 
     public Product(UUID productId) {
         this.productId = productId;
+        this.foo = "boo";
     }
 
     public String getId() {
@@ -40,5 +42,9 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getFoo() {
+        return foo;
     }
 }
