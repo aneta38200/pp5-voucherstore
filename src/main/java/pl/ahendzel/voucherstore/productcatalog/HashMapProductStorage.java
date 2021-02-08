@@ -24,11 +24,16 @@ public class HashMapProductStorage implements ProductStorage {
     }
 
     @Override
-    public List<Product> getAllPublished() {
+    public List<Product> allPublishedProducts() {
         return products.values()
                 .stream()
                 .filter(p -> p.getDescription() != null)
                 .filter(p -> p.getPrice() != null)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void clear() {
+        products.clear();
     }
 }

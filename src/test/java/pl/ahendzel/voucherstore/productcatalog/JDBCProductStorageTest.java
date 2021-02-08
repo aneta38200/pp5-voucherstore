@@ -63,7 +63,7 @@ public class JDBCProductStorageTest {
         jdbcStorage.save(p1);
         jdbcStorage.save(p2);
 
-        List<Product> products = jdbcStorage.getAllPublished();
+        List<Product> products = jdbcStorage.allPublishedProducts();
 
         assertThat(products)
                 .hasSize(2)

@@ -7,20 +7,21 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
+
 public class ListProductStorageTest {
     @Test
-    public void itAllowsStoreProduct() {
+    public void itAllowStoreProduct() {
         Product p1 = thereIsProduct();
-        ProductStorage storage = new HashMapProductStorage();
+        ProductStorage storage = new ListProductStorage();
 
         storage.save(p1);
-
 
     }
 
     private Product thereIsProduct() {
         Product product = new Product(UUID.randomUUID());
         product.setPrice(BigDecimal.valueOf(10));
+
         return product;
     }
 }

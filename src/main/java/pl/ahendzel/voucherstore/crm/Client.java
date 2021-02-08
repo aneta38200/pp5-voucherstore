@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 public class Client {
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Integer id;
 
     private String firstname;
@@ -24,4 +24,3 @@ public class Client {
     @NotNull
     private Address address;
 }
-

@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(SpringRunner.class)
 public class JdbcPlaygroundTest {
 
-    public static final String PRODUCT_ID = "fe902a9c-b713-4007-a54d-e0cb89284bb7";
+    public static final String PRODUCT_ID = "dc79400f-8a9a-48c2-8462-fcfa66ad7328";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -38,32 +38,30 @@ public class JdbcPlaygroundTest {
 
     @Test
     public void itCountProducts() {
-        int result = jdbcTemplate.queryForObject("Select count(*) from `products_catalog__products`",Integer.class);
+        int result = jdbcTemplate.queryForObject("Select count(*) from `products_catalog__products`", Integer.class);
 
         assertThat(result).isEqualTo(0);
-
     }
 
     @Test
     public void itAddProduct() {
         var query = "INSERT INTO `products_catalog__products` (`id`, `description`, `picture`, `price`) values " +
                 "('p1', 'p1 description', 'p1 picture', 20.20)," +
-                "('p2', 'p2 description', 'p2 picture', 20.40)" +
-                ";";
+                "('p2', 'p2 description', 'p2 picture', 30.20)" +
+                "; ";
 
         jdbcTemplate.execute(query);
 
-        int result = jdbcTemplate.queryForObject("Select count(*) from `products_catalog__products`",Integer.class);
+        int result = jdbcTemplate.queryForObject("Select count(*) from `products_catalog__products`", Integer.class);
         assertThat(result).isEqualTo(2);
-
     }
 
     @Test
     public void itLoadProduct() {
         var query = "INSERT INTO `products_catalog__products` (`id`, `description`, `picture`, `price`) values " +
-                "('fe902a9c-b713-4007-a54d-e0cb89284bb7', 'p1 description', 'p1 picture', 20.20)," +
-                "('fe902a9c-b713-4007-a54d-e0cb89284bb8', 'p2 description', 'p2 picture', 20.40)" +
-                ";";
+                "('dc79400f-8a9a-48c2-8462-fcfa66ad7328', 'p1 description', 'p1 picture', 20.20)," +
+                "('dc79400f-8a9a-48c2-8462-fcfa66ad7329', 'p2 description', 'p2 picture', 30.20)" +
+                "; ";
 
         jdbcTemplate.execute(query);
         var selectQuery = "Select * from `products_catalog__products` where id = ?";
@@ -75,9 +73,9 @@ public class JdbcPlaygroundTest {
     @Test
     public void itLoadProductMapViaLambda() {
         var query = "INSERT INTO `products_catalog__products` (`id`, `description`, `picture`, `price`) values " +
-                "('fe902a9c-b713-4007-a54d-e0cb89284bb7', 'p1 description', 'p1 picture', 20.20)," +
-                "('fe902a9c-b713-4007-a54d-e0cb89284bb8', 'p2 description', 'p2 picture', 20.40)" +
-                ";";
+                "('dc79400f-8a9a-48c2-8462-fcfa66ad7328', 'p1 description', 'p1 picture', 20.20)," +
+                "('dc79400f-8a9a-48c2-8462-fcfa66ad7329', 'p2 description', 'p2 picture', 30.20)" +
+                "; ";
 
         jdbcTemplate.execute(query);
         var selectQuery = "Select * from `products_catalog__products` where id = ?";
@@ -92,14 +90,14 @@ public class JdbcPlaygroundTest {
     }
 
     @Test
-    public void itAllowToAddProduct() {
+    public void itAllowtoAddproduct() {
         Product newProduct = new Product(UUID.randomUUID());
         newProduct.setDescription("abc");
 
         jdbcTemplate.update(
                 "INSERT INTO `products_catalog__products` (`id`, `description`, `picture`, `price`) values " +
                         "(?,?,?,?)",
-                    newProduct.getId(), newProduct.getDescription(), newProduct.getPicture(), newProduct.getPrice());
+                newProduct.getId(), newProduct.getDescription(), newProduct.getPicture(), newProduct.getPrice());
 
         List<Product> products = jdbcTemplate.query("Select * from `products_catalog__products`", new ProductRowMapper());
 
@@ -108,10 +106,7 @@ public class JdbcPlaygroundTest {
                 .extracting(Product::getId)
                 .contains(newProduct.getId());
 
-
-
     }
-
 
     class ProductRowMapper implements RowMapper<Product> {
         @Override

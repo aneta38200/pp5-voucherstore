@@ -1,4 +1,5 @@
 package pl.ahendzel.voucherstore.productcatalog;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -51,7 +52,12 @@ public class JdbcProductStorage implements ProductStorage {
     }
 
     @Override
-    public List<Product> getAllPublished() {
+    public List<Product> allPublishedProducts() {
         return jdbcTemplate.query(SELECT_PUBLISHED, getProductRowMapper());
+    }
+
+    @Override
+    public void clear() {
+        jdbcTemplate.update("delete from `products_catalog__products`");
     }
 }

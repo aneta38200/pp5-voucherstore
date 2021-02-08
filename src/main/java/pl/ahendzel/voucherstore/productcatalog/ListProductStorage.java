@@ -15,7 +15,12 @@ public class ListProductStorage implements ProductStorage {
     }
 
     @Override
-    public List<Product> getAllPublished() {
+    public List<Product> allPublishedProducts() {
         return null;
+    }
+
+    @Override
+    public void clear() {
+
     }
 }

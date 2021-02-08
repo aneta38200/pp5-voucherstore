@@ -1,15 +1,15 @@
 package pl.ahendzel.voucherstore.productcatalog;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-
 
 public class ProductCatalogFacade {
     ProductStorage productStorage;
 
     public ProductCatalogFacade(ProductStorage productStorage) {
-
         this.productStorage = productStorage;
     }
 
@@ -22,13 +22,10 @@ public class ProductCatalogFacade {
 
     public boolean isExists(String productId) {
         return productStorage.getById(productId).isPresent();
-
     }
 
     public Product getById(String productId) {
-        Product product = getProductOrException(productId);
-
-        return product;
+        return getProductOrException(productId);
     }
 
     public void updateProductDetails(String productId, String myDescription, String myPicture) {
@@ -37,23 +34,28 @@ public class ProductCatalogFacade {
         product.setDescription(myDescription);
         product.setPicture(myPicture);
 
+        productStorage.save(product);
     }
-
 
     public void applyPrice(String productId, BigDecimal price) {
         Product product = getProductOrException(productId);
 
         product.setPrice(price);
+
+        productStorage.save(product);
     }
 
     public List<Product> allPublishedProducts() {
-        return productStorage.getAllPublished();
-
+        return productStorage.allPublishedProducts();
     }
 
     private Product getProductOrException(String productId) {
         return productStorage.getById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(String.format("There is no product with id", productId)));
+                .orElseThrow(() -> new ProductNotFoundException(String.format("There is no product with id: %s", productId)));
+    }
+
+    @Transactional
+    public void emptyCatalog() {
+        productStorage.clear();
     }
 }
-

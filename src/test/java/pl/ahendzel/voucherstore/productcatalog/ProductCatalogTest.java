@@ -9,33 +9,33 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 public class ProductCatalogTest {
-    public static final String MY_DESCRIPTION = "My Product";
+
+    public static final String MY_DESCRIPTION = "My Fancy Product";
     public static final String MY_PICTURE = "http://my_image.jpeg";
 
     @Test
-    public void itAllowsCreateProduct () {
-        ///Arrange
+    public void itAllowsCreateProduct() {
+        //Arrange
         ProductCatalogFacade api = thereIsProductCatalog();
-        ///Act
+        //Act
         String productId = api.createProduct();
-        ///Assert
+        //Assert
         Assert.assertTrue(api.isExists(productId));
-
     }
 
     @Test
     public void itAllowsLoadProduct() {
-        ///Arrange
+        //Arrange
         ProductCatalogFacade api = thereIsProductCatalog();
-        ///Act
+        //Act
         String productId = api.createProduct();
         Product loaded = api.getById(productId);
-        ///Assert
+        //Assert
         Assert.assertEquals(productId, loaded.getId());
     }
 
     @Test
-    public void itAllowsToSeeProductDetails() {
+    public void itAllowToSetProductDetails() {
         ProductCatalogFacade api = thereIsProductCatalog();
         String productId = api.createProduct();
 
@@ -46,9 +46,8 @@ public class ProductCatalogTest {
         Assert.assertEquals(MY_PICTURE, loaded.getPicture());
     }
 
-
     @Test
-    public void itAllowsToApplyPrice() {
+    public void itAllowToApplyPrice() {
         ProductCatalogFacade api = thereIsProductCatalog();
         String productId = api.createProduct();
 
@@ -56,11 +55,10 @@ public class ProductCatalogTest {
         Product loaded = api.getById(productId);
 
         Assert.assertEquals(BigDecimal.TEN, loaded.getPrice());
-
     }
 
     @Test
-    public void itAllowsToListAllPublishedProducts() {
+    public void itAllowToListAllPublishedProducts() {
         ProductCatalogFacade api = thereIsProductCatalog();
         String draftProductId = api.createProduct();
         String productId = api.createProduct();
@@ -74,7 +72,6 @@ public class ProductCatalogTest {
                 .extracting(Product::getId)
                 .contains(productId)
                 .doesNotContain(draftProductId);
-
     }
 
     @Test
@@ -99,15 +96,14 @@ public class ProductCatalogTest {
     public void itDenyActionOnNotExistedProductV3() {
         ProductCatalogFacade api = thereIsProductCatalog();
 
-        assertThatThrownBy(() -> api.applyPrice("not Exists", BigDecimal.valueOf(20)))
-                .hasMessage("There is no product with id");
+        assertThatThrownBy(() -> api.applyPrice("notExists", BigDecimal.valueOf(20)))
+                .hasMessage("There is no product with id: notExists");
 
-        assertThatThrownBy(() -> api.updateProductDetails("notExists", "desc", "img"))
-                .hasMessage("There is no product with id");
+        assertThatThrownBy(() -> api.updateProductDetails("notExists", "desc", "pic"))
+                .hasMessage("There is no product with id: notExists");
 
         assertThatThrownBy(() -> api.getById("notExists"))
-                .hasMessage("There is no product with id");
-
+                .hasMessage("There is no product with id: notExists");
     }
 
     private static ProductCatalogFacade thereIsProductCatalog() {

@@ -17,5 +17,4 @@ public class ProductCatalogController {
     public List<Product> myProducts() {
         return productCatalogFacade.allPublishedProducts();
     }
-
 }
